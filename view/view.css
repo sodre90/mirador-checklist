@@ -205,3 +205,20 @@ code {
     box-shadow: 0 0 0 3px transparent;
   }
 }
+
+.file-link {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+.file-link code {
+  color: var(--mirador-accent);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+.file-link:hover code {
+  text-decoration-style: solid;
+}
