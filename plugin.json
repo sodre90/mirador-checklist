@@ -1,7 +1,7 @@
 {
   "name": "checklist",
   "title": "Checklist",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "api": 3,
   "canvas": { "host": "host.ts", "view": "dist/view.js" },
   "build": "bun install --frozen-lockfile && bun run build"

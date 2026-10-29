@@ -32,6 +32,14 @@ const dataOf = (item: PluginCanvasItem | undefined) => item?.data as Checklist;
 const doneStates = (item: PluginCanvasItem | undefined) => dataOf(item).sections.flatMap(({ items }) => items.map(({ done }) => done));
 
 describe("the checklist plugin", () => {
+  test("update_checklist describes an item's fields once, in addItems", async () => {
+    const { mcpRequest } = await setUp();
+    const { tools } = await mcpRequest("tools/list", {});
+    const { items, addItems } = tools.find(({ name }: { name: string }) => name === "update_checklist").inputSchema.properties;
+    expect(addItems.items.properties.owner.description).toStartWith("Who is expected to do it");
+    expect(Object.entries(items.items.properties).filter(([, field]) => (field as { description?: string }).description).map(([name]) => name)).toEqual(["id"]);
+  });
+
   test("its tools are pre-allowed, and its lines of guidance follow ask's", async () => {
     const { plugins } = await setUp();
     const { guidance } = plugins;

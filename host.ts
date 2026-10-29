@@ -33,6 +33,9 @@ const itemProperties = {
   done: { description: "Whether it is done; not done by default.", type: "boolean" },
 };
 
+const withoutDescriptions = (properties: Record<string, Record<string, unknown>>) =>
+  Object.fromEntries(Object.entries(properties).map(([name, { description: _, ...property }]) => [name, property]));
+
 const checklistInput = {
   type: "object",
   $schema: SCHEMA,
@@ -60,9 +63,13 @@ const checklistEditInput = {
   $schema: SCHEMA,
   properties: {
     items: {
-      description: "Items to tick, untick, reword or hand over: only the fields you pass change.",
+      description: "Items to tick, untick, reword or hand over, with the fields of addItems: only the fields you pass change.",
       type: "array",
-      items: { type: "object", properties: { ...itemProperties, id: { type: "string", minLength: 1, description: "The item to change." } }, required: ["id"] },
+      items: {
+        type: "object",
+        properties: { ...withoutDescriptions(itemProperties), id: { type: "string", minLength: 1, description: "The item to change." } },
+        required: ["id"],
+      },
     },
     addItems: {
       description: "New items; without after or section, at the end of the last section.",
